@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.orhanobut.logger.Logger
 import com.rius.coinunion.R
 import com.rius.coinunion.databinding.HomeListItemBinding
 import com.rius.coinunion.entity.spot.CoinInfo
 import com.rius.coinunion.injector.Injectable
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import javax.inject.Inject
 
@@ -53,7 +55,9 @@ class HomeFragment : Fragment(), Injectable {
 
         viewModel.connectWebSocket()
 
-
+        viewModel.onSocketData { result ->
+            tv_data.text = result
+        }
 
         adapter.setNewInstance(data)
     }

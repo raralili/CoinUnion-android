@@ -27,11 +27,12 @@ class SplashActivity : AppCompatActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        MyApp.instance.webSocketClient.connect(viewModel.getWebSocketHost())
+//        MyApp.instance.webSocketClient.connect(viewModel.getWebSocketHost())
 
-//        Handler().postDelayed({
-//            MainActivity.start(this)
-//        }, 3000)
+        Handler().postDelayed({
+            MainActivity.start(this)
+            finish()
+        }, 3000)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = injector

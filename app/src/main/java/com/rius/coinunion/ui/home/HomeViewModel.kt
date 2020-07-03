@@ -1,5 +1,6 @@
 package com.rius.coinunion.ui.home
 
+import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,15 +10,15 @@ import com.orhanobut.logger.Logger
 import com.rius.coinunion.entity.spot.CoinInfo
 import com.rius.coinunion.injector.NetworkModule
 import com.rius.coinunion.utils.ApiUtils
-import com.vinsonguo.klinelib.model.HisData
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okio.ByteString
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor() : ViewModel() {
-
 
     private val webSocketClient = MyWebSocketClient()
 
@@ -25,8 +26,13 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         webSocketClient.connect(NetworkModule.SOCKET_URL)
     }
 
+    fun onSocketData(action: (result: String) -> Unit) {
+        webSocketClient.onData = action
+    }
 
     inner class MyWebSocketClient : WebSocketListener() {
+
+        var onData: ((result: String) -> Unit)? = null
 
         private val okHttpClient = OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
@@ -40,15 +46,19 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             okHttpClient.dispatcher().executorService().shutdown()
         }
 
+        private val handler = Handler()
+
         override fun onOpen(webSocket: WebSocket, response: Response) {
             Logger.d("连接成功")
             //{ "sub": "topic to sub", "id": "id generate by client" }
             //subscribe
-            val params = hashMapOf<String, String>()
-            params["sub"] = "market.ethusdt.trade.detail"
-            params["id"] = "rius"
-            val result = Gson().toJson(params)
-            webSocket.send(result)
+            handler.postDelayed({
+                val params = hashMapOf<String, String>()
+                params["sub"] = "market.ethusdt.trade.detail"
+                params["id"] = "rius"
+                val result = Gson().toJson(params)
+                webSocket.send(result)
+            }, 5000)
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -78,6 +88,14 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     val ping = obj.get("ping").asString
                     val pong = Gson().toJson(hashMapOf(Pair("pong", ping)))
                     webSocket.send(pong)
+                } else {
+                    Observable.create<String> { emitter ->
+                        emitter.onNext(result)
+                    }.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { result ->
+                            onData?.invoke(result)
+                        }
                 }
             }
         }
@@ -100,4 +118,5 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         )
         return list
     }
+
 }
