@@ -1,0 +1,3 @@
+rootProject.name='CoinUnion-android'
+include ':app'
+include ':chart'

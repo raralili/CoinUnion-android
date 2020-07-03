@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="coinInfo"
+            type="com.rius.coinunion.entity.spot.CoinInfo" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@{coinInfo.name}"
+            android:textColor="@color/text333"
+            android:textStyle="bold"
+            tools:text="BTC" />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_price_USDT"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center_vertical"
+                android:text="@{String.valueOf(coinInfo.priceUSDT)}"
+                android:textColor="@color/text333"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:ignore="NestedWeights"
+                tools:text="7200" />
+
+            <TextView
+                android:id="@+id/tv_price_CNY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@{@string/sign_chinese_yuan + coinInfo.priceCNY}"
+                android:textColor="@color/text999"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="￥7000" />
+        </LinearLayout>
+
+        <com.rius.coinunion.widget.FluctuationTextView
+            android:id="@+id/tv_fluctuation"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:fluctuation="@{coinInfo.percent}"
+            tools:text="10%"
+            tools:textColor="@color/colorWhite" />
+
+<!--        <com.rius.coinunion.widget.RoundCornerTextView-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:gravity="center"-->
+<!--            android:text="5.00%"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold" />-->
+    </RelativeLayout>
+
+</layout>
