@@ -15,6 +15,7 @@ import com.rius.coinunion.databinding.HomeListItemBinding
 import com.rius.coinunion.db.SelfChoice
 import com.rius.coinunion.entity.spot.CoinInfo
 import com.rius.coinunion.injector.Injectable
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.text.NumberFormat
 import javax.inject.Inject
@@ -58,18 +59,18 @@ class HomeFragment : Fragment(), Injectable {
         )
         recyclerView.adapter = adapter
 
-        val infos = mutableListOf<CoinInfo>()
+        val coins = mutableListOf<CoinInfo>()
 
         viewModel.onSocketData { coinInfo ->
             requireActivity().runOnUiThread {
                 val selfChoiceIndex = SelfChoice.getIndex(coinInfo.name)
                 if (!isAllAdded) {
                     if (selfChoiceIndex == addIndex) {
-                        infos.add(coinInfo)
+                        coins.add(coinInfo)
                         if (addIndex == SelfChoice.getCount() - 1) {
                             addIndex = 0
                             isAllAdded = true
-                            adapter.setNewInstance(infos)
+                            adapter.setNewInstance(coins)
                         } else {
                             addIndex++
                         }
@@ -82,6 +83,9 @@ class HomeFragment : Fragment(), Injectable {
                     val oldPercent = percentFormat.format(old.percent)
                     val currentPercent = percentFormat.format(coinInfo.percent)
                     if (oldPercent != currentPercent) {
+                        if (loading_view.isShown) {
+                            loading_view.smoothToHide()
+                        }
                         adapter.setData(selfChoiceIndex, coinInfo)
                     }
                 }
@@ -90,10 +94,9 @@ class HomeFragment : Fragment(), Injectable {
     }
 
 
-
     override fun onStart() {
         super.onStart()
-
+        loading_view.smoothToShow()
         viewModel.connectWebSocket()
     }
 
