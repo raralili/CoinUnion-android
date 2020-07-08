@@ -29,7 +29,8 @@ class FluctuationTextView : RoundCornerTextView {
         val percentFormat = NumberFormat.getPercentInstance()
         percentFormat.maximumFractionDigits = 2
         percentFormat.minimumFractionDigits = 2
-        this.text = percentFormat.format(fluctuation)
+        val result = percentFormat.format(fluctuation)
+        this.text = if (fluctuation > 0f) "+${result}" else result
     }
 
     private fun setBackgroundByFluctuation(fluctuation: Float) {

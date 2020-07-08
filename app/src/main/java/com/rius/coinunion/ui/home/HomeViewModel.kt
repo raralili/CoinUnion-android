@@ -8,13 +8,15 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.orhanobut.logger.Logger
 import com.rius.coinunion.entity.spot.CoinInfo
+import com.rius.coinunion.entity.spot.socket.BaseInfo
+import com.rius.coinunion.entity.spot.socket.KLineInfo
+import com.rius.coinunion.helper.CoinInfoConverter
 import com.rius.coinunion.injector.NetworkModule
 import com.rius.coinunion.utils.ApiUtils
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okio.ByteString
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -26,39 +28,65 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         webSocketClient.connect(NetworkModule.SOCKET_URL)
     }
 
-    fun onSocketData(action: (result: String) -> Unit) {
+    fun onSocketData(action: (result: CoinInfo) -> Unit) {
         webSocketClient.onData = action
+    }
+
+    fun disconnectWebSocket() {
+        webSocketClient.disconnect()
     }
 
     inner class MyWebSocketClient : WebSocketListener() {
 
-        var onData: ((result: String) -> Unit)? = null
-
-        private val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .build()
+        var onData: ((result: CoinInfo) -> Unit)? = null
+        private var webSocket: WebSocket? = null
 
         fun connect(url: String) {
+            val okHttpClient = OkHttpClient.Builder()
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .build()
             val request = Request.Builder().url(url).build()
-            okHttpClient.newWebSocket(request, this)
+            webSocket = okHttpClient.newWebSocket(request, this)
             okHttpClient.dispatcher().executorService().shutdown()
+        }
+
+        fun disconnect() {
+            webSocket?.close(1000, "page left")
         }
 
         private val handler = Handler()
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
             Logger.d("连接成功")
-            //{ "sub": "topic to sub", "id": "id generate by client" }
             //subscribe
-            handler.postDelayed({
-                val params = hashMapOf<String, String>()
-                params["sub"] = "market.ethusdt.trade.detail"
-                params["id"] = "rius"
-                val result = Gson().toJson(params)
-                webSocket.send(result)
-            }, 5000)
+            //{ "sub": "topic to sub", "id": "id generate by client" }
+            //market.$symbol$.kline.$period$
+            val gson = Gson()
+            val btc = hashMapOf<String, String>()
+            btc["sub"] = "market.btcusdt.kline.1day"
+            btc["id"] = "rius"
+            val btcJson = gson.toJson(btc)
+            webSocket.send(btcJson)
+
+            val eth = hashMapOf<String, String>()
+            eth["sub"] = "market.ethusdt.kline.1day"
+            eth["id"] = "rius"
+            val ethJson = gson.toJson(eth)
+            webSocket.send(ethJson)
+
+            val bch = hashMapOf<String, String>()
+            bch["sub"] = "market.bchusdt.kline.1day"
+            bch["id"] = "rius"
+            val bchJson = gson.toJson(bch)
+            webSocket.send(bchJson)
+
+            val eos = hashMapOf<String, String>()
+            eos["sub"] = "market.eosusdt.kline.1day"
+            eos["id"] = "rius"
+            val eosJson = gson.toJson(eos)
+            webSocket.send(eosJson)
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -66,13 +94,14 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            Logger.d("连接失败")
+            Logger.d("[socket连接失败]-ERROR:${t.message}-RESPONSE:${response?.message()}")
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             super.onMessage(webSocket, text)
             Logger.d("[socket-message]:${text}")
         }
+
 
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
             super.onMessage(webSocket, bytes)
@@ -88,35 +117,48 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     val ping = obj.get("ping").asString
                     val pong = Gson().toJson(hashMapOf(Pair("pong", ping)))
                     webSocket.send(pong)
+                } else if (obj.has("subbed")) {
+                    //todo: do on subbed
                 } else {
-                    Observable.create<String> { emitter ->
-                        emitter.onNext(result)
-                    }.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { result ->
-                            onData?.invoke(result)
-                        }
+                    val gson = Gson()
+                    val type =
+                        SocketParameterizedType(
+                            BaseInfo::class.java,
+                            arrayOf(KLineInfo::class.java)
+                        )
+                    val entity = gson.fromJson<BaseInfo<KLineInfo>>(result, type)
+                    val kLineInfo = entity.tick
+                    val coinInfo = CoinInfo(
+                        CoinInfoConverter.convertName(entity.ch),
+                        kLineInfo.close,
+                        CoinInfoConverter.convertCNY(kLineInfo.close),
+                        CoinInfoConverter.getPercent(kLineInfo.open, kLineInfo.close)
+                    )
+                    onData?.invoke(coinInfo)
                 }
             }
         }
     }
 
+    class SocketParameterizedType(
+        val raw: Class<*>,
+        val args: Array<Type>
+    ) : ParameterizedType {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+
+        override fun getRawType(): Type {
+            return raw
+        }
+
+        override fun getOwnerType(): Type? {
+            return null
+        }
+
+        override fun getActualTypeArguments(): Array<Type> {
+            return args
+        }
+
     }
 
-    val text: LiveData<String> = _text
-
-    fun getData(): MutableList<CoinInfo> {
-        val list = mutableListOf<CoinInfo>(
-            CoinInfo("BTC", 7200f, 53000f, 0.015f),
-            CoinInfo("ETH", 230f, 1450f, 0.035f),
-            CoinInfo("BCH", 7200f, 53000f, 0.025f),
-            CoinInfo("BSV", 7200f, 53000f, 0.055f),
-            CoinInfo("EOS", 7200f, 53000f, 0.0015f)
-        )
-        return list
-    }
 
 }
