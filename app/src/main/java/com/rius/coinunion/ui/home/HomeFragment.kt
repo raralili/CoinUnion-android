@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
@@ -22,6 +23,10 @@ import javax.inject.Inject
 
 
 class HomeFragment : Fragment(), Injectable {
+
+    companion object {
+        fun newInstance() = HomeFragment()
+    }
 
 
     @Inject
@@ -57,6 +62,17 @@ class HomeFragment : Fragment(), Injectable {
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        adapter.setOnItemClickListener { adapter, view, position ->
+            findNavController().navigate(
+                R.id.action_homeBottomNavFragment_to_marketFragment,
+                Bundle().apply {
+                    putString(
+                        "name", this@HomeFragment.adapter.data[position].name
+                    )
+                }
+            )
+        }
         recyclerView.adapter = adapter
 
         val coins = mutableListOf<CoinInfo>()
@@ -83,7 +99,7 @@ class HomeFragment : Fragment(), Injectable {
                     val oldPercent = percentFormat.format(old.percent)
                     val currentPercent = percentFormat.format(coinInfo.percent)
                     if (oldPercent != currentPercent) {
-                        if (loading_view.isShown) {
+                        if (loading_view != null && loading_view.isShown) {
                             loading_view.smoothToHide()
                         }
                         adapter.setData(selfChoiceIndex, coinInfo)

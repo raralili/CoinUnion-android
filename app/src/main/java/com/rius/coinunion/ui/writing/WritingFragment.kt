@@ -10,7 +10,12 @@ import javax.inject.Inject
 
 class WritingFragment : Fragment() {
 
-    @Inject lateinit var viewModel: WritingViewModel
+    companion object {
+        fun newInstance() = WritingFragment()
+    }
+
+    @Inject
+    lateinit var viewModel: WritingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

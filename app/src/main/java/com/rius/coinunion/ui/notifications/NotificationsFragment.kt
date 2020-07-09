@@ -12,6 +12,10 @@ import com.rius.coinunion.R
 
 class NotificationsFragment : Fragment() {
 
+    companion object {
+        fun newInstance() = NotificationsFragment()
+    }
+
     private lateinit var notificationsViewModel: NotificationsViewModel
 
     override fun onCreateView(

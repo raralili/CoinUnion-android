@@ -3,23 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/homeBottomNavFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.rius.coinunion.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/marketFragment"
+        android:name="com.rius.coinunion.ui.market.MarketFragment"
+        android:label="market_fragment"
+        tools:layout="@layout/market_fragment" />
     <fragment
-        android:id="@+id/navigation_writing"
-        android:name="com.rius.coinunion.ui.writing.WritingFragment"
-        android:label="@string/title_writing"
-        tools:layout="@layout/writing_fragment" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.rius.coinunion.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/homeBottomNavFragment"
+        android:name="com.rius.coinunion.ui.HomeBottomNavFragment"
+        android:label="fragment_home_bottom_nav"
+        tools:layout="@layout/fragment_home_bottom_nav" >
+        <action
+            android:id="@+id/action_homeBottomNavFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
+    </fragment>
 </navigation>

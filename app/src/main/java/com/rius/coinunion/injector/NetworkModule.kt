@@ -1,10 +1,12 @@
 package com.rius.coinunion.injector
 
+import com.orhanobut.logger.Logger
 import com.rius.coinunion.websocket.WebSocketClient
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,7 +42,9 @@ class NetworkModule {
         val client = OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
-//            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(HttpLoggingInterceptor { msg ->
+                Logger.e(msg)
+            })
             .connectTimeout(10, TimeUnit.SECONDS)
             .build()
         return client
