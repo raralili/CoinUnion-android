@@ -17,8 +17,7 @@ class HomeBottomNavFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home_bottom_nav, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_home_bottom_nav, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

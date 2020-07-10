@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
@@ -63,8 +63,9 @@ class HomeFragment : Fragment(), Injectable {
             )
         )
 
+
         adapter.setOnItemClickListener { adapter, view, position ->
-            findNavController().navigate(
+            view.findNavController().navigate(
                 R.id.action_homeBottomNavFragment_to_marketFragment,
                 Bundle().apply {
                     putString(
@@ -100,7 +101,7 @@ class HomeFragment : Fragment(), Injectable {
                     val currentPercent = percentFormat.format(coinInfo.percent)
                     if (oldPercent != currentPercent) {
                         if (loading_view != null && loading_view.isShown) {
-                            loading_view.smoothToHide()
+                            loading_view.hide()
                         }
                         adapter.setData(selfChoiceIndex, coinInfo)
                     }
@@ -112,12 +113,14 @@ class HomeFragment : Fragment(), Injectable {
 
     override fun onStart() {
         super.onStart()
-        loading_view.smoothToShow()
+        loading_view.show()
+        viewModel.registerMessageListener()
         viewModel.connectWebSocket()
     }
 
     override fun onStop() {
         super.onStop()
+        viewModel.unregisterMessageListener()
         viewModel.disconnectWebSocket()
     }
 

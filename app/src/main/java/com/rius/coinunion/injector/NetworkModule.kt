@@ -31,11 +31,6 @@ class NetworkModule {
         const val MODEL_CROSS_MARGIN = "v1/cross-margin"
     }
 
-
-    @Provides
-    @Singleton
-    fun provideWebSocketClient() = WebSocketClient()
-
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {

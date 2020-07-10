@@ -20,9 +20,6 @@ class MyApp : Application(), HasAndroidInjector {
     @Inject
     lateinit var injector: DispatchingAndroidInjector<Any>
 
-    @Inject
-    lateinit var webSocketClient: WebSocketClient
-
     override fun androidInjector(): AndroidInjector<Any> = injector
 
     override fun onCreate() {
