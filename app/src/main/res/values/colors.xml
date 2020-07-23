@@ -10,4 +10,5 @@
     <color name="colorDecrease">#F11D0E</color>
     <color name="colorNoChange">#0F8DEE</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="gray">#797979</color>
 </resources>

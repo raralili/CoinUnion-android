@@ -10,5 +10,5 @@ import retrofit2.http.Query
 interface CommonApi {
 
     @GET("${NetworkModule.MODEL_MARKET}/history/kline")
-    fun getKLineInfo(@Query("symbol") symbol: String, @Query("period") period: String): Flowable<ApiResult<List<KLineInfo>>>
+    fun getKLineInfo(@Query("symbol") symbol: String, @Query("period") period: String, @Query("size") size: Int): Flowable<ApiResult<List<KLineInfo>>>
 }

@@ -26,7 +26,8 @@ class MarketViewModel @Inject constructor(private val commonApi: CommonApi) : Vi
     private val webSocketClient = MyWebSocketClient()
 
     fun httpGetKlineHistory(symbol: String, period: String): Flowable<ApiResult<List<KLineInfo>>> {
-        return commonApi.getKLineInfo(symbol, period).observeOn(AndroidSchedulers.mainThread())
+        return commonApi.getKLineInfo(symbol, period, 2000)
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun connectWebSocket() {
