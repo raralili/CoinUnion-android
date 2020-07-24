@@ -28,7 +28,6 @@ class HomeFragment : Fragment(), Injectable {
         fun newInstance() = HomeFragment()
     }
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -62,7 +61,6 @@ class HomeFragment : Fragment(), Injectable {
                 DividerItemDecoration.VERTICAL
             )
         )
-
 
         adapter.setOnItemClickListener { adapter, view, position ->
             view.findNavController().navigate(
@@ -114,14 +112,18 @@ class HomeFragment : Fragment(), Injectable {
     override fun onStart() {
         super.onStart()
         loading_view.show()
-        viewModel.registerMessageListener()
-        viewModel.connectWebSocket()
+        viewModel.run {
+            registerMessageListener()
+            connectWebSocket()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.unregisterMessageListener()
-        viewModel.disconnectWebSocket()
+        viewModel.run {
+            unregisterMessageListener()
+            disconnectWebSocket()
+        }
     }
 
     inner class CoinAdapter :

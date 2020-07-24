@@ -7,4 +7,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_writing_recommend">推荐</string>
+    <string name="tab_writing_latest">最新</string>
+    <string name="tab_writing_star">关注</string>
 </resources>

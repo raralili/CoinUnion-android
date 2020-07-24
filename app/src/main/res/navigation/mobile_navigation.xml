@@ -14,7 +14,7 @@
         android:id="@+id/homeBottomNavFragment"
         android:name="com.rius.coinunion.ui.HomeBottomNavFragment"
         android:label="fragment_home_bottom_nav"
-        tools:layout="@layout/fragment_home_bottom_nav" >
+        tools:layout="@layout/fragment_home_bottom_nav">
         <action
             android:id="@+id/action_homeBottomNavFragment_to_marketFragment"
             app:destination="@id/marketFragment" />

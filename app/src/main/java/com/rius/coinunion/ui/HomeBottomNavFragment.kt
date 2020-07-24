@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.rius.coinunion.R
 import com.rius.coinunion.ui.home.HomeFragment
 import com.rius.coinunion.ui.notifications.NotificationsFragment
-import com.rius.coinunion.ui.writing.WritingFragment
+import com.rius.coinunion.ui.writing.WritingPagerFragment
 import kotlinx.android.synthetic.main.fragment_home_bottom_nav.*
 
 class HomeBottomNavFragment : Fragment() {
@@ -27,7 +27,7 @@ class HomeBottomNavFragment : Fragment() {
 
     private fun setUpUi() {
         val homeFragment = HomeFragment.newInstance()
-        val writingFragment = WritingFragment.newInstance()
+        val writingFragment = WritingPagerFragment.newInstance()
         val notificationsFragment = NotificationsFragment.newInstance()
 
         switchPage(homeFragment)
