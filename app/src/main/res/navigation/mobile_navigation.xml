@@ -18,5 +18,13 @@
         <action
             android:id="@+id/action_homeBottomNavFragment_to_marketFragment"
             app:destination="@id/marketFragment" />
+        <action
+            android:id="@+id/action_homeBottomNavFragment_to_writingDetailFragment"
+            app:destination="@id/writingDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/writingDetailFragment"
+        android:name="com.rius.coinunion.ui.writing.detail.WritingDetailFragment"
+        android:label="writing_detail_fragment"
+        tools:layout="@layout/writing_detail_fragment" />
 </navigation>

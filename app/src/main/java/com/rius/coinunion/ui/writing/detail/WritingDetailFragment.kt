@@ -1,4 +1,4 @@
-package com.rius.coinunion.ui.writing.subs
+package com.rius.coinunion.ui.writing.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,28 +11,27 @@ import com.rius.coinunion.R
 import com.rius.coinunion.injector.Injectable
 import javax.inject.Inject
 
-class WritingStarFragment : Fragment(), Injectable {
+
+class WritingDetailFragment : Fragment(), Injectable {
 
     companion object {
-        fun newInstance() = WritingStarFragment()
+        fun newInstance() = WritingDetailFragment()
     }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: WritingStarViewModel by viewModels { viewModelFactory }
+    private val viewModel: WritingDetailViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.writing_star_fragment, container, false)
+        return inflater.inflate(R.layout.writing_detail_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
-
     }
 
 }

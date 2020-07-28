@@ -11,7 +11,7 @@ import javax.inject.Inject
 class FragmentBindingAdapter @Inject constructor(val fragment: Fragment) {
 
     @BindingAdapter(value = ["imgUrl", "placeHolder"], requireAll = false)
-    fun bindImage(iv: ImageView, url: String, placeHolder: Drawable?) {
+    fun bindImage(iv: ImageView, url: String?, placeHolder: Drawable?) {
         val holder = placeHolder ?: fragment.resources.getDrawable(
             R.mipmap.ic_launcher,
             fragment.requireContext().theme

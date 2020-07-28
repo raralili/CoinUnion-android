@@ -1,6 +1,7 @@
 package com.rius.coinunion.ui.writing.subs
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
@@ -13,7 +14,8 @@ import com.rius.coinunion.ui.common.DataBoundListAdapter
 
 class WritingListAdapter(
     private val bindingComponent: DataBindingComponent,
-    appExecutors: AppExecutors
+    appExecutors: AppExecutors,
+    private val callback: ((View, WritingInfo) -> Unit)?
 ) : DataBoundListAdapter<WritingInfo, WritingListItemBinding>(
     appExecutors,
     diffCallback = object : DiffUtil.ItemCallback<WritingInfo>() {
@@ -35,6 +37,11 @@ class WritingListAdapter(
             false,
             bindingComponent
         )
+        binding.root.setOnClickListener { v ->
+            binding.info?.let {
+                callback?.invoke(v, it)
+            }
+        }
         return binding
     }
 

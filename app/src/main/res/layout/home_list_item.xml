@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@{coinInfo.name}"
-            android:textColor="@color/text333"
+            android:textColor="@color/black333"
             android:textStyle="bold"
             tools:text="BTC" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="25dp"
                 android:gravity="center_vertical"
                 android:text="@{String.valueOf(coinInfo.priceUSDT)}"
-                android:textColor="@color/text333"
+                android:textColor="@color/black333"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:ignore="NestedWeights"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@{@string/sign_chinese_yuan + coinInfo.priceCNY}"
-                android:textColor="@color/text999"
+                android:textColor="@color/black999"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 tools:text="￥7000" />

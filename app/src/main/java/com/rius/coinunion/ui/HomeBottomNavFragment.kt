@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.rius.coinunion.R
 import com.rius.coinunion.ui.home.HomeFragment
-import com.rius.coinunion.ui.notifications.NotificationsFragment
+import com.rius.coinunion.ui.profile.ProfileFragment
 import com.rius.coinunion.ui.writing.WritingPagerFragment
 import kotlinx.android.synthetic.main.fragment_home_bottom_nav.*
 
@@ -28,7 +28,7 @@ class HomeBottomNavFragment : Fragment() {
     private fun setUpUi() {
         val homeFragment = HomeFragment.newInstance()
         val writingFragment = WritingPagerFragment.newInstance()
-        val notificationsFragment = NotificationsFragment.newInstance()
+        val profileFragment = ProfileFragment.newInstance()
 
         switchPage(homeFragment)
 
@@ -42,8 +42,8 @@ class HomeBottomNavFragment : Fragment() {
                     switchPage(writingFragment)
                     true
                 }
-                R.id.navigation_notifications -> {
-                    switchPage(notificationsFragment)
+                R.id.navigation_profile -> {
+                    switchPage(profileFragment)
                     true
                 }
                 else -> false

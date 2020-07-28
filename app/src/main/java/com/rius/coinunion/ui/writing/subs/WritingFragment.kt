@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingComponent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
@@ -17,7 +18,7 @@ import com.rius.coinunion.binding.FragmentBindingComponent
 import com.rius.coinunion.databinding.WritingListItemBinding
 import com.rius.coinunion.entity.writing.WritingInfo
 import com.rius.coinunion.injector.Injectable
-import kotlinx.android.synthetic.main.writing_recommend_fragment.*
+import kotlinx.android.synthetic.main.writing_fragment.*
 import javax.inject.Inject
 
 const val WRITING_TYPE_KEY = "writing_type"
@@ -67,14 +68,21 @@ class WritingFragment private constructor() : Fragment(), Injectable {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        root = inflater.inflate(R.layout.writing_recommend_fragment, container, false)
+        root = inflater.inflate(R.layout.writing_fragment, container, false)
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = recycler_view
-        val adapter = WritingListAdapter(bindingComponent, appExecutors)
+        val adapter = WritingListAdapter(bindingComponent, appExecutors) { _, info ->
+            findNavController().navigate(
+                R.id.action_homeBottomNavFragment_to_writingDetailFragment,
+                Bundle().apply {
+                    putString("id", info.id)
+                }
+            )
+        }
         this.adapter = adapter
         recyclerView.adapter = adapter
     }

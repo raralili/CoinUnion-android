@@ -21,7 +21,6 @@ abstract class DataBoundListAdapter<T, V : ViewDataBinding>(
         return DataBoundViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: DataBoundViewHolder<V>, position: Int) {
         bind(holder.binding, getItem(position))
         holder.binding.executePendingBindings()

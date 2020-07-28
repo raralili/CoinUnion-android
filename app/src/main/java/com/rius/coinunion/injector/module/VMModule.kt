@@ -6,7 +6,9 @@ import com.rius.coinunion.injector.ViewModelKey
 import com.rius.coinunion.ui.SplashViewModel
 import com.rius.coinunion.ui.home.HomeViewModel
 import com.rius.coinunion.ui.market.MarketViewModel
-import com.rius.coinunion.ui.writing.subs.*
+import com.rius.coinunion.ui.profile.ProfileViewModel
+import com.rius.coinunion.ui.writing.detail.WritingDetailViewModel
+import com.rius.coinunion.ui.writing.subs.WritingViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -36,12 +38,12 @@ abstract class VMModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(WritingLatestViewModel::class)
-    abstract fun bindWritingLatestViewModel(vm: WritingLatestViewModel): ViewModel
+    @ViewModelKey(WritingDetailViewModel::class)
+    abstract fun bindWritingDetailViewModel(vm: WritingDetailViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(WritingStarViewModel::class)
-    abstract fun bindWritingStarViewModel(vm: WritingStarViewModel): ViewModel
+    @ViewModelKey(ProfileViewModel::class)
+    abstract fun bindProfileViewModel(vm: ProfileViewModel): ViewModel
 
 }
