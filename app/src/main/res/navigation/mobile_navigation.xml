@@ -32,7 +32,7 @@
         tools:layout="@layout/writing_detail_fragment" />
     <fragment
         android:id="@+id/discoveryFragment"
-        android:name="com.rius.coinunion.ui.discovery.DiscoveryFragment"
+        android:name="com.rius.coinunion.ui.userlist.UserListFragment"
         android:label="discovery_fragment"
-        tools:layout="@layout/discovery_fragment" />
+        tools:layout="@layout/user_list_fragment" />
 </navigation>

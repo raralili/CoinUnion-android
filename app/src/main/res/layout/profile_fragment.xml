@@ -43,6 +43,20 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ralph·Nelson·Elliott" />
 
+
+        <TextView
+            android:id="@+id/tv_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fragment_profile_user_info_margin"
+            android:layout_marginTop="@dimen/fragment_profile_sign_top_margin"
+            android:text="@{userInfo.sign}"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            tools:text="我是波多野鸡" />
+
+
         <TextView
             android:id="@+id/tv_uid"
             android:layout_width="wrap_content"
@@ -50,9 +64,9 @@
             android:layout_marginStart="@dimen/fragment_profile_user_info_margin"
             android:layout_marginTop="@dimen/fragment_profile_uid_top_margin"
             android:text="@{@string/generate_uid(userInfo.privateInfo.uid)}"
-            android:textSize="18sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
-            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_sign"
             tools:text="uid:10086" />
 
         <LinearLayout

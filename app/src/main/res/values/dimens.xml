@@ -5,7 +5,10 @@
 
     <dimen name="fragment_profile_avatar_length">100dp</dimen>
     <dimen name="fragment_profile_user_info_margin">10dp</dimen>
-    <dimen name="fragment_profile_uid_top_margin">40dp</dimen>
+    <dimen name="fragment_profile_uid_top_margin">10dp</dimen>
     <dimen name="fragment_profile_container_tab_margin_top">30dp</dimen>
     <dimen name="fragment_profile_tab_separator_margin">6dp</dimen>
+    <dimen name="fragment_profile_sign_top_margin">10dp</dimen>
+    <dimen name="fragment_writing_floating_button_bottom_margin">40dp</dimen>
+    <dimen name="fragment_writing_floating_button_end_margin">20dp</dimen>
 </resources>

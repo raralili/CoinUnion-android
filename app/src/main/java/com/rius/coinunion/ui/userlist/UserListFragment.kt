@@ -1,4 +1,4 @@
-package com.rius.coinunion.ui.discovery
+package com.rius.coinunion.ui.userlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,16 +12,15 @@ import com.orhanobut.logger.Logger
 import com.rius.coinunion.AppExecutors
 import com.rius.coinunion.R
 import com.rius.coinunion.binding.FragmentBindingComponent
-import com.rius.coinunion.helper.autoCleared
 import com.rius.coinunion.injector.Injectable
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.discovery_fragment.*
+import kotlinx.android.synthetic.main.user_list_fragment.*
 import javax.inject.Inject
 
-class DiscoveryFragment : Fragment(), Injectable {
+class UserListFragment : Fragment(), Injectable {
 
     companion object {
-        fun newInstance() = DiscoveryFragment()
+        fun newInstance() = UserListFragment()
     }
 
     private val disposable = CompositeDisposable()
@@ -32,10 +31,10 @@ class DiscoveryFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    val viewModel by viewModels<DiscoveryViewModel> { viewModelFactory }
+    val viewModel by viewModels<UserListViewModel> { viewModelFactory }
 
     //    var adapter by autoCleared<DiscoveryListAdapter>()
-    lateinit var adapter: DiscoveryListAdapter
+    lateinit var adapter: UserListAdapter
 
     val bindingComponent = FragmentBindingComponent(this)
 
@@ -44,7 +43,7 @@ class DiscoveryFragment : Fragment(), Injectable {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.discovery_fragment, container, false)
+        val root = inflater.inflate(R.layout.user_list_fragment, container, false)
         return root
     }
 
@@ -57,7 +56,7 @@ class DiscoveryFragment : Fragment(), Injectable {
                 DividerItemDecoration.VERTICAL
             )
         )
-        adapter = DiscoveryListAdapter(bindingComponent, appExecutors)
+        adapter = UserListAdapter(bindingComponent, appExecutors)
         recyclerView.adapter = adapter
     }
 

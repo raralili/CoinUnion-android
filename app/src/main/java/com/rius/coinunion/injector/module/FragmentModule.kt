@@ -1,6 +1,6 @@
 package com.rius.coinunion.injector.module
 
-import com.rius.coinunion.ui.discovery.DiscoveryFragment
+import com.rius.coinunion.ui.userlist.UserListFragment
 import com.rius.coinunion.ui.home.HomeFragment
 import com.rius.coinunion.ui.market.MarketFragment
 import com.rius.coinunion.ui.profile.ProfileFragment
@@ -28,5 +28,5 @@ abstract class FragmentModule {
     abstract fun contributeProfileFragment(): ProfileFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeDiscoveryFragment(): DiscoveryFragment
+    abstract fun contributeDiscoveryFragment(): UserListFragment
 }

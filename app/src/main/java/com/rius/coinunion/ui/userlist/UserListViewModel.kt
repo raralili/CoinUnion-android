@@ -1,4 +1,4 @@
-package com.rius.coinunion.ui.discovery
+package com.rius.coinunion.ui.userlist
 
 import androidx.lifecycle.ViewModel
 import com.rius.coinunion.db.SimData
@@ -7,7 +7,7 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class DiscoveryViewModel @Inject constructor() : ViewModel() {
+class UserListViewModel @Inject constructor() : ViewModel() {
 
     fun getRecommendUsers(): Flowable<List<UserInfo>> {
         val recommend = SimData().users
