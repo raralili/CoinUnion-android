@@ -6,6 +6,6 @@ data class UserProfileInfo(
     val uid: String,
     val name: String,
     val avatar: String,
-    val stars: List<SimpleUserInfo>?,
+    val stars: List<UserInfo>?,
     val writings: List<WritingInfo>?
 )

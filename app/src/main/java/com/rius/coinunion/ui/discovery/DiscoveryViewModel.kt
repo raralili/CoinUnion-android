@@ -1,4 +1,4 @@
-package com.rius.coinunion.ui.profile
+package com.rius.coinunion.ui.discovery
 
 import androidx.lifecycle.ViewModel
 import com.rius.coinunion.db.SimData
@@ -7,16 +7,10 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor() : ViewModel() {
-
-    fun userProfile(uid: String): Flowable<UserInfo> {
-        val profile = SimData().adminUser
-        return Flowable.just(profile).observeOn(AndroidSchedulers.mainThread())
-    }
+class DiscoveryViewModel @Inject constructor() : ViewModel() {
 
     fun getRecommendUsers(): Flowable<List<UserInfo>> {
         val recommend = SimData().users
         return Flowable.just(recommend).observeOn(AndroidSchedulers.mainThread())
     }
-
 }

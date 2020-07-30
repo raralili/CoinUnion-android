@@ -21,10 +21,18 @@
         <action
             android:id="@+id/action_homeBottomNavFragment_to_writingDetailFragment"
             app:destination="@id/writingDetailFragment" />
+        <action
+            android:id="@+id/action_homeBottomNavFragment_to_discoveryFragment"
+            app:destination="@id/discoveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/writingDetailFragment"
         android:name="com.rius.coinunion.ui.writing.detail.WritingDetailFragment"
         android:label="writing_detail_fragment"
         tools:layout="@layout/writing_detail_fragment" />
+    <fragment
+        android:id="@+id/discoveryFragment"
+        android:name="com.rius.coinunion.ui.discovery.DiscoveryFragment"
+        android:label="discovery_fragment"
+        tools:layout="@layout/discovery_fragment" />
 </navigation>

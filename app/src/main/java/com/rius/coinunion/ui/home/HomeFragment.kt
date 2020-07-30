@@ -62,7 +62,7 @@ class HomeFragment : Fragment(), Injectable {
             )
         )
 
-        adapter.setOnItemClickListener { adapter, view, position ->
+        adapter.setOnItemClickListener { _, view, position ->
             view.findNavController().navigate(
                 R.id.action_homeBottomNavFragment_to_marketFragment,
                 Bundle().apply {
@@ -99,7 +99,7 @@ class HomeFragment : Fragment(), Injectable {
                     val currentPercent = percentFormat.format(coinInfo.percent)
                     if (oldPercent != currentPercent) {
                         if (loading_view != null && loading_view.isShown) {
-                            loading_view.hide()
+//                            loading_view.hide()
                         }
                         adapter.setData(selfChoiceIndex, coinInfo)
                     }
@@ -111,7 +111,7 @@ class HomeFragment : Fragment(), Injectable {
 
     override fun onStart() {
         super.onStart()
-        loading_view.show()
+//        loading_view.show()
         viewModel.run {
             registerMessageListener()
             connectWebSocket()

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.rius.coinunion.injector.ViewModelFactoryModule
 import com.rius.coinunion.injector.ViewModelKey
 import com.rius.coinunion.ui.SplashViewModel
+import com.rius.coinunion.ui.discovery.DiscoveryViewModel
 import com.rius.coinunion.ui.home.HomeViewModel
 import com.rius.coinunion.ui.market.MarketViewModel
 import com.rius.coinunion.ui.profile.ProfileViewModel
@@ -45,5 +46,10 @@ abstract class VMModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     abstract fun bindProfileViewModel(vm: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DiscoveryViewModel::class)
+    abstract fun bindDiscoveryViewModel(vm: DiscoveryViewModel): ViewModel
 
 }

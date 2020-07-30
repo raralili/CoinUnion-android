@@ -8,12 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.orhanobut.logger.Logger
 import com.rius.coinunion.R
 import com.rius.coinunion.binding.FragmentBindingComponent
 import com.rius.coinunion.databinding.ProfileFragmentBinding
 import com.rius.coinunion.helper.autoCleared
 import com.rius.coinunion.injector.Injectable
+import com.rius.coinunion.ui.HomeBottomNavFragmentDirections
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -43,6 +45,14 @@ class ProfileFragment : Fragment(), Injectable {
             false,
             dataBindingComponent
         )
+        dataBinding.containerWriting.setOnClickListener {
+
+        }
+
+        dataBinding.containerDiscovery.setOnClickListener { v ->
+            v.findNavController()
+                .navigate(HomeBottomNavFragmentDirections.actionHomeBottomNavFragmentToDiscoveryFragment())
+        }
         binding = dataBinding
         return dataBinding.root
     }
@@ -52,7 +62,7 @@ class ProfileFragment : Fragment(), Injectable {
 
         disposable.add(
             viewModel.userProfile("10086").subscribe({ info ->
-                binding.profileInfo = info
+                binding.userInfo = info
             }, { t ->
                 Logger.e(t.message!!)
             })
@@ -65,6 +75,11 @@ class ProfileFragment : Fragment(), Injectable {
                 Logger.e(t.message!!)
             })
         )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 
 }

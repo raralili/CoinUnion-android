@@ -4,12 +4,12 @@
     <data>
 
         <variable
-            name="profileInfo"
-            type="com.rius.coinunion.entity.user.UserProfileInfo" />
+            name="userInfo"
+            type="com.rius.coinunion.entity.user.UserInfo" />
 
         <variable
             name="recommendUsers"
-            type="java.util.ArrayList&lt;com.rius.coinunion.entity.user.SimpleUserInfo>" />
+            type="java.util.List&lt;com.rius.coinunion.entity.user.UserInfo>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,11 +21,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_avatar"
-            imgUrl="@{profileInfo.avatar}"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
+            imgUrl="@{userInfo.avatar}"
+            android:layout_width="@dimen/fragment_profile_avatar_length"
+            android:layout_height="@dimen/fragment_profile_avatar_length"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@mipmap/ic_launcher" />
@@ -34,9 +34,9 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:text="@{profileInfo.name}"
+            android:layout_marginStart="@dimen/fragment_profile_user_info_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@{userInfo.name}"
             android:textColor="@color/blackPure"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
@@ -47,9 +47,9 @@
             android:id="@+id/tv_uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:text="@{@string/generate_uid(profileInfo.uid)}"
+            android:layout_marginStart="@dimen/fragment_profile_user_info_margin"
+            android:layout_marginTop="@dimen/fragment_profile_uid_top_margin"
+            android:text="@{@string/generate_uid(userInfo.privateInfo.uid)}"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
@@ -58,13 +58,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
+            android:layout_marginTop="@dimen/fragment_profile_container_tab_margin_top"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_avatar">
 
             <LinearLayout
+                android:id="@+id/container_writing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,7 +84,7 @@
                     android:id="@+id/tv_writing_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(profileInfo.writings.size())}"
+                    android:text="@{String.valueOf(userInfo.writings.size())}"
                     android:textColor="@color/blackPure"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -91,10 +92,11 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_margin="6dp"
+                android:layout_margin="@dimen/fragment_profile_tab_separator_margin"
                 android:background="@color/blackPure" />
 
             <LinearLayout
+                android:id="@+id/container_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,7 +115,7 @@
                     android:id="@+id/tv_star_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(profileInfo.stars.size())}"
+                    android:text="@{String.valueOf(userInfo.stars.size())}"
                     android:textColor="@color/blackPure"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -121,10 +123,11 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_margin="6dp"
+                android:layout_margin="@dimen/fragment_profile_tab_separator_margin"
                 android:background="@color/blackPure" />
 
             <LinearLayout
+                android:id="@+id/container_discovery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

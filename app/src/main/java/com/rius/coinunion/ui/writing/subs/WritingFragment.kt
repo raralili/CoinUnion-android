@@ -9,14 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.rius.coinunion.AppExecutors
 import com.rius.coinunion.R
 import com.rius.coinunion.binding.FragmentBindingComponent
-import com.rius.coinunion.databinding.WritingListItemBinding
-import com.rius.coinunion.entity.writing.WritingInfo
 import com.rius.coinunion.injector.Injectable
 import kotlinx.android.synthetic.main.writing_fragment.*
 import javax.inject.Inject
@@ -48,8 +43,6 @@ class WritingFragment private constructor() : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: WritingViewModel by viewModels { viewModelFactory }
-
-//    private val adapter = WritingAdapter()
 
     private lateinit var adapter: WritingListAdapter
 
@@ -89,24 +82,7 @@ class WritingFragment private constructor() : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        adapter.setNewInstance(viewModel.getListData(type))
         val src = viewModel.getListData(type)
         adapter.submitList(src)
-    }
-
-    inner class WritingAdapter :
-        BaseQuickAdapter<WritingInfo, BaseDataBindingHolder<WritingListItemBinding>>(R.layout.writing_list_item) {
-
-        override fun convert(
-            holder: BaseDataBindingHolder<WritingListItemBinding>,
-            item: WritingInfo
-        ) {
-            val binding = holder.dataBinding!!
-            binding.info = item
-            Glide.with(this@WritingFragment)
-                .load(item.imgUrl)
-                .into(binding.ivMain)
-            binding.executePendingBindings()
-        }
     }
 }
