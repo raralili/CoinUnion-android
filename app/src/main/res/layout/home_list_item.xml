@@ -6,7 +6,7 @@
 
         <variable
             name="coinInfo"
-            type="com.rius.coinunion.entity.spot.CoinInfo" />
+            type="com.rius.coinunion.entity.market.CoinInfo" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

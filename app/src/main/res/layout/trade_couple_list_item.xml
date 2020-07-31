@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tradeCouple"
+            type="com.rius.coinunion.entity.market.TradeCouple" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_list_height"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin">
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_couple"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@{tradeCouple.coupleForView}"
+            android:textColor="@color/blackPure"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/checkbox"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="BTC/USDT" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

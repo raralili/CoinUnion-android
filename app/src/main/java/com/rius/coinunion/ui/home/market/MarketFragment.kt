@@ -1,4 +1,4 @@
-package com.rius.coinunion.ui.market
+package com.rius.coinunion.ui.home.market
 
 import android.content.Context
 import android.graphics.Color
@@ -15,7 +15,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.rius.coinunion.R
-import com.rius.coinunion.entity.spot.socket.KLineInfo
+import com.rius.coinunion.entity.market.socket.KLineInfo
 import com.rius.coinunion.injector.Injectable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.market_fragment.*

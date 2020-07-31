@@ -7,7 +7,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.rius.coinunion.AppExecutors
 
-abstract class DataBoundListAdapter<T, V : ViewDataBinding>(
+inline fun <T> diffCallback(
+    crossinline itemSame: DiffUtil.ItemCallback<T>.(old: T, new: T) -> Boolean,
+    crossinline contentsSame: DiffUtil.ItemCallback<T>.(old: T, new: T) -> Boolean
+): DiffUtil.ItemCallback<T> = object : DiffUtil.ItemCallback<T>() {
+    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean =
+        itemSame(oldItem, newItem)
+
+    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean =
+        contentsSame(oldItem, newItem)
+}
+
+abstract class MyListAdapter<T, V : ViewDataBinding>(
     appExecutors: AppExecutors,
     diffCallback: DiffUtil.ItemCallback<T>
 ) : ListAdapter<T, DataBoundViewHolder<V>>(

@@ -1,14 +1,14 @@
-package com.rius.coinunion.ui.market
+package com.rius.coinunion.ui.home.market
 
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.orhanobut.logger.Logger
 import com.rius.coinunion.api.ApiResult
-import com.rius.coinunion.api.spot.CommonApi
-import com.rius.coinunion.entity.spot.CandleStickInfo
-import com.rius.coinunion.entity.spot.socket.BaseInfo
-import com.rius.coinunion.entity.spot.socket.KLineInfo
+import com.rius.coinunion.api.SpotApi
+import com.rius.coinunion.entity.market.CandleStickInfo
+import com.rius.coinunion.entity.market.socket.BaseInfo
+import com.rius.coinunion.entity.market.socket.KLineInfo
 import com.rius.coinunion.injector.NetworkModule
 import com.rius.coinunion.utils.ApiUtils
 import io.reactivex.Flowable
@@ -20,13 +20,13 @@ import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MarketViewModel @Inject constructor(private val commonApi: CommonApi) : ViewModel() {
+class MarketViewModel @Inject constructor(private val spotApi: SpotApi) : ViewModel() {
 
 
     private val webSocketClient = MyWebSocketClient()
 
     fun httpGetKlineHistory(symbol: String, period: String): Flowable<ApiResult<List<KLineInfo>>> {
-        return commonApi.getKLineInfo(symbol, period, 2000)
+        return spotApi.getKLineInfo(symbol, period, 2000)
             .observeOn(AndroidSchedulers.mainThread())
     }
 

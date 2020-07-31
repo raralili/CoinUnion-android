@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/marketFragment"
-        android:name="com.rius.coinunion.ui.market.MarketFragment"
+        android:name="com.rius.coinunion.ui.home.market.MarketFragment"
         android:label="market_fragment"
         tools:layout="@layout/market_fragment" />
     <fragment
@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeBottomNavFragment_to_discoveryFragment"
             app:destination="@id/discoveryFragment" />
+        <action
+            android:id="@+id/action_homeBottomNavFragment_to_tradeCoupleFragment"
+            app:destination="@id/tradeCoupleFragment" />
     </fragment>
     <fragment
         android:id="@+id/writingDetailFragment"
@@ -35,4 +38,9 @@
         android:name="com.rius.coinunion.ui.userlist.UserListFragment"
         android:label="discovery_fragment"
         tools:layout="@layout/user_list_fragment" />
+    <fragment
+        android:id="@+id/tradeCoupleFragment"
+        android:name="com.rius.coinunion.ui.home.tradecouple.TradeCoupleFragment"
+        android:label="trade_couple_fragment"
+        tools:layout="@layout/trade_couple_fragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.rius.coinunion.entity.spot
+package com.rius.coinunion.entity.market
 
 data class CoinInfo(
     val name: String,

@@ -1,9 +1,9 @@
 package com.rius.coinunion.ui.home
 
 import com.google.gson.GsonBuilder
-import com.rius.coinunion.entity.spot.CoinInfo
-import com.rius.coinunion.entity.spot.socket.BaseInfo
-import com.rius.coinunion.entity.spot.socket.KLineInfo
+import com.rius.coinunion.entity.market.CoinInfo
+import com.rius.coinunion.entity.market.socket.BaseInfo
+import com.rius.coinunion.entity.market.socket.KLineInfo
 import com.rius.coinunion.helper.CoinInfoConverter
 import com.rius.coinunion.supercomponent.WebSocketViewModel
 import okhttp3.WebSocket

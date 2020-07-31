@@ -1,4 +1,4 @@
-package com.rius.coinunion.entity.spot.socket
+package com.rius.coinunion.entity.market.socket
 
 data class BaseInfo<T>(
     val ch: String,

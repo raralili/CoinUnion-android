@@ -14,9 +14,9 @@ import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.rius.coinunion.R
 import com.rius.coinunion.databinding.HomeListItemBinding
 import com.rius.coinunion.db.SelfChoice
-import com.rius.coinunion.entity.spot.CoinInfo
+import com.rius.coinunion.entity.market.CoinInfo
 import com.rius.coinunion.injector.Injectable
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.rius.coinunion.ui.HomeBottomNavFragmentDirections
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.text.NumberFormat
 import javax.inject.Inject
@@ -46,14 +46,19 @@ class HomeFragment : Fragment(), Injectable {
         return root
     }
 
-
     private var addIndex = 0
     private var isAllAdded = false
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val recyclerView = root.recyclerView
+        val floatingButton = root.floating_button
+
+        floatingButton.setOnClickListener {
+            val directions =
+                HomeBottomNavFragmentDirections.actionHomeBottomNavFragmentToTradeCoupleFragment()
+            it.findNavController().navigate(directions)
+        }
 
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -98,9 +103,9 @@ class HomeFragment : Fragment(), Injectable {
                     val oldPercent = percentFormat.format(old.percent)
                     val currentPercent = percentFormat.format(coinInfo.percent)
                     if (oldPercent != currentPercent) {
-                        if (loading_view != null && loading_view.isShown) {
+//                        if (loading_view != null && loading_view.isShown) {
 //                            loading_view.hide()
-                        }
+//                        }
                         adapter.setData(selfChoiceIndex, coinInfo)
                     }
                 }

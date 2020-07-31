@@ -1,6 +1,6 @@
 package com.rius.coinunion.injector.module
 
-import com.rius.coinunion.api.spot.CommonApi
+import com.rius.coinunion.api.SpotApi
 import com.rius.coinunion.injector.NetworkModule
 import dagger.Module
 import dagger.Provides
@@ -12,7 +12,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideSpotCommonApi(retrofit: Retrofit): CommonApi {
-        return retrofit.create(CommonApi::class.java)
+    fun provideSpotCommonApi(retrofit: Retrofit): SpotApi {
+        return retrofit.create(SpotApi::class.java)
     }
 }

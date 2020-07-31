@@ -18,17 +18,27 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/home_list_item" />
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loading_view"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:indicatorColor="@color/colorPrimary"
-        app:indicatorName="LineSpinFadeLoaderIndicator"
+        android:layout_marginEnd="@dimen/fragment_writing_floating_button_end_margin"
+        android:layout_marginBottom="@dimen/fragment_writing_floating_button_bottom_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
+    <!--    <com.wang.avi.AVLoadingIndicatorView-->
+    <!--        android:id="@+id/loading_view"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:indicatorColor="@color/colorPrimary"-->
+    <!--        app:indicatorName="LineSpinFadeLoaderIndicator"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

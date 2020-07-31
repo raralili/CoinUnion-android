@@ -4,28 +4,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import com.rius.coinunion.AppExecutors
 import com.rius.coinunion.R
 import com.rius.coinunion.databinding.UserListItemBinding
 import com.rius.coinunion.entity.user.UserInfo
-import com.rius.coinunion.ui.common.DataBoundListAdapter
+import com.rius.coinunion.ui.common.MyListAdapter
+import com.rius.coinunion.ui.common.diffCallback
 
 class UserListAdapter(
     private val bindingComponent: DataBindingComponent,
     appExecutors: AppExecutors
-) : DataBoundListAdapter<UserInfo, UserListItemBinding>(
+) : MyListAdapter<UserInfo, UserListItemBinding>(
     appExecutors,
-    diffCallback = object : DiffUtil.ItemCallback<UserInfo>() {
-        override fun areItemsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
-            return oldItem.privateInfo.uid == newItem.privateInfo.uid
-        }
-
-        override fun areContentsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
-            return oldItem.privateInfo.uid == newItem.privateInfo.uid && oldItem.avatar == newItem.avatar && oldItem.name == newItem.name
-        }
-
-    }) {
+    diffCallback({ old, new ->
+        old.privateInfo.uid == new.privateInfo.uid
+    }, { old, new ->
+        old.privateInfo.uid == new.privateInfo.uid && old.avatar == new.avatar && old.name == new.name
+    })
+) {
 
     override fun createBinding(parent: ViewGroup): UserListItemBinding {
         val binding = DataBindingUtil.inflate<UserListItemBinding>(
