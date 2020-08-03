@@ -7,20 +7,25 @@ import androidx.databinding.DataBindingUtil
 import com.rius.coinunion.AppExecutors
 import com.rius.coinunion.R
 import com.rius.coinunion.databinding.TradeCoupleListItemBinding
-import com.rius.coinunion.entity.market.TradeCouple
+import com.rius.coinunion.db.entity.TradeCouple
 import com.rius.coinunion.ui.common.MyListAdapter
 import com.rius.coinunion.ui.common.diffCallback
 
 class TradeCoupleAdapter(
     private val bindingComponent: DataBindingComponent,
-    appExecutors: AppExecutors
+    appExecutors: AppExecutors,
+    private var checkCallback: ((TradeCouple, Boolean) -> Unit)?
 ) : MyListAdapter<TradeCouple, TradeCoupleListItemBinding>(
     appExecutors, diffCallback({ old, new ->
-        old.coupleForView == new.coupleForView
+        old.symbol == new.symbol
     }, { old, new ->
-        old.coupleForView == new.coupleForView
+        old.symbol == new.symbol
     })
 ) {
+
+    lateinit var binding: TradeCoupleListItemBinding
+    var previewCheckCount = 0
+
     override fun createBinding(parent: ViewGroup): TradeCoupleListItemBinding {
         val binding = DataBindingUtil.inflate<TradeCoupleListItemBinding>(
             LayoutInflater.from(parent.context),
@@ -29,7 +34,16 @@ class TradeCoupleAdapter(
             false,
             bindingComponent
         )
+        binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.tradeCouple?.let {
+                checkCallback?.invoke(it, isChecked)
+            }
+        }
         return binding
+    }
+
+    override fun onBind(binding: TradeCoupleListItemBinding, item: TradeCouple, position: Int) {
+        binding.checkbox.isChecked = position <= previewCheckCount - 1
     }
 
     override fun bind(binding: TradeCoupleListItemBinding, item: TradeCouple) {

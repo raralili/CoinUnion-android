@@ -30,13 +30,16 @@ abstract class WebSocketViewModel : ViewModel(), HuobiWebSocketListener {
         webSocketClient.addTopic(topic)
     }
 
+    fun subscribe() {
+        webSocketClient.subscribe()
+    }
+
     fun disconnectWebSocket() {
         webSocketClient.disconnect(1000, "page left")
     }
 
     override fun onConnected(webSocket: WebSocket, response: Response) {
         Logger.d("[webSocket]: Connected with ${NetworkModule.SOCKET_URL}")
-        webSocketClient.subscribe()
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {}

@@ -1,5 +1,7 @@
 package com.rius.coinunion.websocket
 
+import android.os.Handler
+import android.os.HandlerThread
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.orhanobut.logger.Logger
@@ -11,6 +13,9 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 class HuobiWebSocketClient : WebSocketClient() {
+
+    private lateinit var handlerThread: HandlerThread
+    private lateinit var handler: Handler
 
     private val topics = mutableListOf<Map<String, String>>()
 
@@ -52,15 +57,22 @@ class HuobiWebSocketClient : WebSocketClient() {
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
+//        handlerThread = HandlerThread("webSocketHandlerThread-${this::class.java.simpleName}")
+//        handlerThread.start()
+//        handler = Handler(handlerThread.looper)
+//        handler.post {
         listeners.forEach { l ->
             l.onConnected(webSocket, response)
         }
+//        }
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         listeners.forEach { l ->
             l.onClosed(webSocket, code, reason)
         }
+//        handler.removeCallbacksAndMessages(null)
+//        handlerThread.quitSafely()
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

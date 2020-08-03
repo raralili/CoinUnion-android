@@ -6,6 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.tradecouple.TradeCoupleFragment">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_list_height"
+        app:contentPaddingLeft="@dimen/activity_horizontal_margin"
+        app:contentPaddingRight="@dimen/activity_horizontal_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="选择币种"
+                android:textColor="@color/black333"
+                android:textSize="@dimen/bar_title_size_20sp" />
+
+            <TextView
+                android:id="@+id/tv_action_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="完成"
+                android:textColor="@color/colorOrange" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"

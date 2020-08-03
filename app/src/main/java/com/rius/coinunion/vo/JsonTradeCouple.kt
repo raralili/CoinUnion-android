@@ -1,4 +1,4 @@
-package com.rius.coinunion.entity.vo
+package com.rius.coinunion.vo
 
 import com.google.gson.annotations.SerializedName
 

@@ -13,10 +13,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.rius.coinunion.R
 import com.rius.coinunion.databinding.HomeListItemBinding
-import com.rius.coinunion.db.SelfChoice
+import com.rius.coinunion.db.LocalDefaultTradeCouples
+import com.rius.coinunion.db.entity.TradeCouple
 import com.rius.coinunion.entity.market.CoinInfo
 import com.rius.coinunion.injector.Injectable
 import com.rius.coinunion.ui.HomeBottomNavFragmentDirections
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.text.NumberFormat
 import javax.inject.Inject
@@ -27,6 +29,8 @@ class HomeFragment : Fragment(), Injectable {
     companion object {
         fun newInstance() = HomeFragment()
     }
+
+    private val disposable = CompositeDisposable()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -43,30 +47,21 @@ class HomeFragment : Fragment(), Injectable {
         savedInstanceState: Bundle?
     ): View? {
         root = inflater.inflate(R.layout.fragment_home, container, false)
-        return root
-    }
 
-    private var addIndex = 0
-    private var isAllAdded = false
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val recyclerView = root.recyclerView
         val floatingButton = root.floating_button
-
         floatingButton.setOnClickListener {
             val directions =
                 HomeBottomNavFragmentDirections.actionHomeBottomNavFragmentToTradeCoupleFragment()
             it.findNavController().navigate(directions)
         }
 
+        val recyclerView = root.recyclerView
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
             )
         )
-
         adapter.setOnItemClickListener { _, view, position ->
             view.findNavController().navigate(
                 R.id.action_homeBottomNavFragment_to_marketFragment,
@@ -78,35 +73,60 @@ class HomeFragment : Fragment(), Injectable {
             )
         }
         recyclerView.adapter = adapter
+        return root
+    }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        var selfChoiceTradeCoupleSize = 0
         val coins = mutableListOf<CoinInfo>()
+        val percentFormat = NumberFormat.getPercentInstance()
+        percentFormat.maximumFractionDigits = 2
+        percentFormat.minimumFractionDigits = 2
+
+        viewModel.onConnectedWebSocket { _, _ ->
+            disposable.add(viewModel.loadLocalTradeCouples().subscribe { tradeCouples ->
+                val couples = mutableListOf<TradeCouple>()
+                if (tradeCouples.isNotEmpty()) {
+                    couples.addAll(tradeCouples)
+                } else {
+                    val defaultTradeCouple = LocalDefaultTradeCouples.get()
+                    viewModel.insertTradeCouples(*defaultTradeCouple).subscribe {
+                        couples.addAll(defaultTradeCouple)
+                    }
+                }
+                if (couples.isNotEmpty()) {
+                    couples.forEach {
+                        viewModel.addTopic(
+                            mapOf(
+                                Pair("sub", "market.${it.symbol}.kline.1day"),
+                                Pair("id", "rius")
+                            )
+                        )
+                    }
+                    selfChoiceTradeCoupleSize = couples.size
+                    viewModel.subscribe()
+                }
+            })
+        }
 
         viewModel.onSocketData { coinInfo ->
             requireActivity().runOnUiThread {
-                val selfChoiceIndex = SelfChoice.getIndex(coinInfo.name)
-                if (!isAllAdded) {
-                    if (selfChoiceIndex == addIndex) {
+                if (coins.size < selfChoiceTradeCoupleSize) {
+                    if (!coins.map { it.name }.contains(coinInfo.name)) {
                         coins.add(coinInfo)
-                        if (addIndex == SelfChoice.getCount() - 1) {
-                            addIndex = 0
-                            isAllAdded = true
-                            adapter.setNewInstance(coins)
-                        } else {
-                            addIndex++
-                        }
+                    }
+                    if (coins.size == selfChoiceTradeCoupleSize) {
+                        adapter.setNewInstance(coins)
                     }
                 } else {
-                    val old = adapter.getItem(selfChoiceIndex)
-                    val percentFormat = NumberFormat.getPercentInstance()
-                    percentFormat.maximumFractionDigits = 2
-                    percentFormat.minimumFractionDigits = 2
+                    val index = coins.map { it.name }.indexOf(coinInfo.name)
+                    val old = coins[index]
                     val oldPercent = percentFormat.format(old.percent)
                     val currentPercent = percentFormat.format(coinInfo.percent)
                     if (oldPercent != currentPercent) {
-//                        if (loading_view != null && loading_view.isShown) {
-//                            loading_view.hide()
-//                        }
-                        adapter.setData(selfChoiceIndex, coinInfo)
+                        adapter.setData(index, coinInfo)
                     }
                 }
             }

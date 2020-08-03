@@ -34,10 +34,13 @@ abstract class MyListAdapter<T, V : ViewDataBinding>(
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<V>, position: Int) {
         bind(holder.binding, getItem(position))
+        onBind(holder.binding, getItem(position), position)
         holder.binding.executePendingBindings()
     }
 
     protected abstract fun createBinding(parent: ViewGroup): V
 
     protected abstract fun bind(binding: V, item: T)
+
+    protected open fun onBind(binding: V, item: T, position: Int) {}
 }

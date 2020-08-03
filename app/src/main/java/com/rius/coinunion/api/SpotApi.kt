@@ -1,7 +1,7 @@
 package com.rius.coinunion.api
 
 import com.rius.coinunion.entity.market.socket.KLineInfo
-import com.rius.coinunion.entity.vo.JsonTradeCouple
+import com.rius.coinunion.vo.JsonTradeCouple
 import com.rius.coinunion.injector.NetworkModule
 import io.reactivex.Flowable
 import retrofit2.http.GET
