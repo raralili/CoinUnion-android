@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_homeBottomNavFragment_to_tradeCoupleFragment"
             app:destination="@id/tradeCoupleFragment" />
+        <action
+            android:id="@+id/action_homeBottomNavFragment_to_writingEditFragment"
+            app:destination="@id/writingEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/writingDetailFragment"
@@ -43,4 +46,9 @@
         android:name="com.rius.coinunion.ui.home.tradecouple.TradeCoupleFragment"
         android:label="trade_couple_fragment"
         tools:layout="@layout/trade_couple_fragment" />
+    <fragment
+        android:id="@+id/writingEditFragment"
+        android:name="com.rius.coinunion.ui.writing.edit.WritingEditFragment"
+        android:label="writing_edit_fragment"
+        tools:layout="@layout/writing_edit_fragment" />
 </navigation>

@@ -13,7 +13,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -85,6 +85,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.14"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
+    //runtime permission
+    implementation "org.permissionsdispatcher:permissionsdispatcher:$permission_version"
+    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permission_version"
+
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
@@ -108,6 +112,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-//    implementation 'com.jaeger.statusbarutil:library:1.4.0'
     implementation 'com.github.Ye-Miao:StatusBarUtil:1.7.5'
+
+    implementation 'com.zhihu.android:matisse:0.5.3-beta3'
 }

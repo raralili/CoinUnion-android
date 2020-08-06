@@ -31,6 +31,7 @@ class MyApp : Application(), HasAndroidInjector {
                 .build()
                 .inject(this)
         }
+        KmUtils.init(this)
         KmUtils.initLogger()
     }
 }

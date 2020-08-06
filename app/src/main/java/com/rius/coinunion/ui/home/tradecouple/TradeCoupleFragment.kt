@@ -55,7 +55,7 @@ class TradeCoupleFragment : Fragment(), Injectable {
 
         adapter =
             TradeCoupleAdapter(bindingComponent, appExecutors) { coupleState, isChecked ->
-
+                //Nothing needs to do at present time.
             }
         recyclerView.adapter = adapter
         return root

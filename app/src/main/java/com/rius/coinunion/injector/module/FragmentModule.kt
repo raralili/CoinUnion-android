@@ -1,11 +1,12 @@
 package com.rius.coinunion.injector.module
 
-import com.rius.coinunion.ui.userlist.UserListFragment
 import com.rius.coinunion.ui.home.HomeFragment
 import com.rius.coinunion.ui.home.market.MarketFragment
 import com.rius.coinunion.ui.home.tradecouple.TradeCoupleFragment
 import com.rius.coinunion.ui.profile.ProfileFragment
+import com.rius.coinunion.ui.userlist.UserListFragment
 import com.rius.coinunion.ui.writing.detail.WritingDetailFragment
+import com.rius.coinunion.ui.writing.edit.WritingEditFragment
 import com.rius.coinunion.ui.writing.subs.WritingFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -33,4 +34,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeTradeCoupleFragment(): TradeCoupleFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeWritingEditFragment(): WritingEditFragment
 }

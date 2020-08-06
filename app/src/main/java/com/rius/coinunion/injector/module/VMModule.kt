@@ -10,6 +10,7 @@ import com.rius.coinunion.ui.home.tradecouple.TradeCoupleViewModel
 import com.rius.coinunion.ui.profile.ProfileViewModel
 import com.rius.coinunion.ui.userlist.UserListViewModel
 import com.rius.coinunion.ui.writing.detail.WritingDetailViewModel
+import com.rius.coinunion.ui.writing.edit.WritingEditViewModel
 import com.rius.coinunion.ui.writing.subs.WritingViewModel
 import dagger.Binds
 import dagger.Module
@@ -58,4 +59,8 @@ abstract class VMModule {
     @ViewModelKey(TradeCoupleViewModel::class)
     abstract fun bindTradeCoupleViewModel(vm: TradeCoupleViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(WritingEditViewModel::class)
+    abstract fun bindWritingEditViewModel(vm: WritingEditViewModel): ViewModel
 }
