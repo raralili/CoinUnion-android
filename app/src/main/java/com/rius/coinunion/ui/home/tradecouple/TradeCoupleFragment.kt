@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.orhanobut.logger.Logger
 import com.rius.coinunion.AppExecutors
@@ -34,38 +34,17 @@ class TradeCoupleFragment : Fragment(), Injectable {
 
     val viewModel by viewModels<TradeCoupleViewModel> { viewModelFactory }
 
+
     @Inject
     lateinit var appExecutors: AppExecutors
     val bindingComponent = FragmentBindingComponent(this)
     var adapter by autoCleared<TradeCoupleAdapter>()
-
-    //保存选中的交易对的状态。完成时根据状态添加到数据库
-    var selectedItem by autoCleared<MutableList<TradeCouple>>()
-
-    //保存最初的交易对的check状态。如果完成时没选中某一条交易对，则应从数据库中删除
-    var originItemStateMap by autoCleared<MutableMap<TradeCouple, Int>>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.trade_couple_fragment, container, false)
-        selectedItem = mutableListOf()
-
-        originItemStateMap = mutableMapOf()
-        adapter = TradeCoupleAdapter(bindingComponent, appExecutors) { tradeCouple, isChecked ->
-            if (isChecked) {
-                if (!selectedItem.contains(tradeCouple)) selectedItem.add(tradeCouple)
-                if (originItemStateMap.containsKey(tradeCouple)) {
-                    originItemStateMap[tradeCouple] = 1
-                }
-            } else {
-                if (selectedItem.contains(tradeCouple)) selectedItem.remove(tradeCouple)
-                if (originItemStateMap.containsKey(tradeCouple)) {
-                    originItemStateMap[tradeCouple] = 0
-                }
-            }
-        }
         val recyclerView = root.recycler_view
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -73,63 +52,78 @@ class TradeCoupleFragment : Fragment(), Injectable {
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        adapter =
+            TradeCoupleAdapter(bindingComponent, appExecutors) { coupleState, isChecked ->
+
+            }
         recyclerView.adapter = adapter
         return root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //列表数据
+        val coupleState = mutableListOf<TradeCoupleState>()
+        //查询到的本地自选交易对
+        val localCouples = mutableListOf<TradeCouple>()
 
-        val tradeCouple = mutableListOf<TradeCouple>()
-        var localTradeCoupleSize = 0
-        disposable.add(viewModel.loadLocalTradeCouples().subscribe {
-            if (it.isNotEmpty()) {
-                tradeCouple.addAll(it)
-                selectedItem.addAll(tradeCouple)
-                localTradeCoupleSize = tradeCouple.size
-
-                tradeCouple.forEach { couple ->
-                    originItemStateMap[couple] = 1
-                }
+        //读取数据库中的自选交易对
+        disposable.add(viewModel.loadLocalTradeCouples().subscribe { couples ->
+            localCouples.addAll(couples)
+            val convertedList = couples.map {
+                TradeCoupleState(
+                    it,
+                    isChecked = true,
+                    isLocal = true
+                )
             }
+            coupleState.addAll(convertedList)
         })
-
-        disposable.add(viewModel.getTradeCouples().subscribe({ result ->
-            val temp = result.toMutableList()
-            if (tradeCouple.isNotEmpty()) {
-                temp.removeAll(tradeCouple)
+        //读取网络获取的交易对
+        disposable.add(viewModel.getTradeCouples().subscribe({ couples ->
+            //网络中的交易对和数据库中的有重复，先将其移除
+            val rest = couples.toMutableList().apply {
+                removeAll(localCouples)
             }
-            tradeCouple.addAll(temp)
-            if (localTradeCoupleSize != 0) {
-                adapter.previewCheckCount = localTradeCoupleSize
-            }
-            adapter.submitList(tradeCouple)
-
+            coupleState.addAll(rest.map {
+                TradeCoupleState(
+                    it,
+                    isChecked = false,
+                    isLocal = false
+                )
+            })
+            adapter.submitList(coupleState)
         }, { t ->
             Logger.e(t.message!!)
         }))
 
-        tv_action_finish.setOnClickListener { v ->
-            if (originItemStateMap.isNotEmpty()) {
-                for (entry in originItemStateMap) {
-                    if (entry.value == 0) {
-                        val couple = entry.key
-                        viewModel.deleteLocalTrade(couple).subscribe { success, t ->
-                            Logger.d("[deleteLocalCouple]:${success}")
+
+        //提交按钮
+        title_bar.setEndAction {
+            //挑出本地有的，如果没选择，就把本地的删除
+            val data = adapter.currentList
+            if (data.isNotEmpty()) {
+                val local = data.filter { it.isLocal }
+                local.forEach {
+                    if (!it.isChecked) {
+                        viewModel.deleteLocalTrade(it.tradeCouple).subscribe { success ->
+                            Logger.d("TradeCoupleDelete:${success}")
                         }
-                    } else {
-                        //如果初始交易对状态未改变，应该将该交易对从selectedItem中删掉，否则会造成重复添加
-                        selectedItem.remove(entry.key)
                     }
                 }
-            }
-
-            if (selectedItem.isNotEmpty()) {
-                viewModel.addCouple(*selectedItem.toTypedArray()).subscribe {
-                    v.findNavController().navigateUp()
+                //不是本地有的，又选择了，则添加
+                val selected = data.filter { !it.isLocal && it.isChecked }
+                if (selected.isNotEmpty()) {
+                    viewModel.addCouple(*selected.map { it.tradeCouple }.toTypedArray()).subscribe {
+                        findNavController().navigateUp()
+                    }
+                } else {
+                    findNavController().navigateUp()
                 }
             } else {
-                v.findNavController().navigateUp()
+                findNavController().navigateUp()
             }
         }
     }
@@ -138,5 +132,4 @@ class TradeCoupleFragment : Fragment(), Injectable {
         super.onStop()
         disposable.clear()
     }
-
 }

@@ -1,44 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.tradecouple.TradeCoupleFragment">
 
-    <androidx.cardview.widget.CardView
+    <com.rius.coinunion.widget.TitleBar
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/common_list_height"
-        app:contentPaddingLeft="@dimen/activity_horizontal_margin"
-        app:contentPaddingRight="@dimen/activity_horizontal_margin">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="选择币种"
-                android:textColor="@color/black333"
-                android:textSize="@dimen/bar_title_size_20sp" />
-
-            <TextView
-                android:id="@+id/tv_action_finish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:text="完成"
-                android:textColor="@color/colorOrange" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content"
+        app:endActionText="完成"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="添加自选" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
         tools:listitem="@layout/trade_couple_list_item" />
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

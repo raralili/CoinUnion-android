@@ -107,4 +107,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+//    implementation 'com.jaeger.statusbarutil:library:1.4.0'
+    implementation 'com.github.Ye-Miao:StatusBarUtil:1.7.5'
 }

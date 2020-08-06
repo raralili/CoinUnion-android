@@ -5,8 +5,8 @@ import android.os.Handler
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.leaf.library.StatusBarUtil
 import com.rius.coinunion.MainActivity
-import com.rius.coinunion.MyApp
 import com.rius.coinunion.R
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -26,6 +26,8 @@ class SplashActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        StatusBarUtil.setTransparentForWindow(this)
+        StatusBarUtil.setDarkMode(this)
 
 //        MyApp.instance.webSocketClient.connect(viewModel.getWebSocketHost())
 

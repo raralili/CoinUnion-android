@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoinUnion</string>
+    <string name="app_name">COIN UNION</string>
     <string name="title_home">主页</string>
     <string name="title_writing">快文</string>
     <string name="title_profile">印象</string>
@@ -11,4 +11,6 @@
     <string name="tab_writing_recommend">推荐</string>
     <string name="tab_writing_latest">最新</string>
     <string name="tab_writing_star">关注</string>
+    <string name="title_self_choice">自选</string>
+    <string name="str_title">标题</string>
 </resources>

@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="tradeCouple"
-            type="com.rius.coinunion.db.entity.TradeCouple" />
+            name="coupleState"
+            type="com.rius.coinunion.ui.home.tradecouple.TradeCoupleState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text='@{tradeCouple.showUppercaseCoupleBySeparator("/")}'
+            android:text='@{coupleState.tradeCouple.showUppercaseCoupleBySeparator("-")}'
             android:textColor="@color/blackPure"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/checkbox"
