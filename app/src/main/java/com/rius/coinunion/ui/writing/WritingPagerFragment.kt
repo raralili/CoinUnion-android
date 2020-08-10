@@ -32,7 +32,6 @@ class WritingPagerFragment : Fragment() {
         val viewPager = root.view_pager
         val floatingButton = root.floating_button
 
-
         viewPager.adapter = WritingPagerAdapter(this)
         viewPager.isSaveEnabled = false
 

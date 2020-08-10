@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.leaf.library.StatusBarUtil
 import com.rius.coinunion.MainActivity
 import com.rius.coinunion.R
+import com.rius.coinunion.helper.LoginInterceptor
+import com.rius.coinunion.ui.login.LoginActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -31,8 +33,16 @@ class SplashActivity : AppCompatActivity(), HasAndroidInjector {
 
 //        MyApp.instance.webSocketClient.connect(viewModel.getWebSocketHost())
 
+        LoginInterceptor.intercept({
+            delayStart { MainActivity.start(this) }
+        }, {
+            delayStart { LoginActivity.start(this) }
+        })
+    }
+
+    private inline fun delayStart(crossinline action: () -> Unit) {
         Handler().postDelayed({
-            MainActivity.start(this)
+            action()
             finish()
         }, 3000)
     }

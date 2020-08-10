@@ -5,20 +5,21 @@
 
         <variable
             name="data"
-            type="com.rius.coinunion.ui.writing.edit.WritingEditGridEntity" />
+            type="com.rius.coinunion.ui.writing.edit.WritingEditGridResult" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/photo_grid_item_separator">
 
         <ImageView
             android:id="@+id/iv_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="fitXY"
+            android:layout_width="@dimen/photo_gird_item_length"
+            android:layout_height="@dimen/photo_gird_item_length"
             android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"
             app:imgUri="@{data.uri}"
             tools:src="@mipmap/ic_launcher" />
 

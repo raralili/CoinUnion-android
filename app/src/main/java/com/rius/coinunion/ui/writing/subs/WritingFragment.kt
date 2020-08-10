@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.orhanobut.logger.Logger
 import com.rius.coinunion.AppExecutors
 import com.rius.coinunion.R
 import com.rius.coinunion.binding.FragmentBindingComponent
 import com.rius.coinunion.injector.Injectable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.writing_fragment.*
 import javax.inject.Inject
 
@@ -35,6 +37,8 @@ class WritingFragment private constructor() : Fragment(), Injectable {
             } else throw IllegalArgumentException("unexpected type for WritingFragment")
         }
     }
+
+    private val disposable = CompositeDisposable()
 
     @Inject
     lateinit var appExecutors: AppExecutors
@@ -69,6 +73,7 @@ class WritingFragment private constructor() : Fragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = recycler_view
         val adapter = WritingListAdapter(bindingComponent, appExecutors) { _, info ->
+            //            val directions = HomeBottomNavFragmentDirections.actionHomeBottomNavFragmentToWritingDetailFragment()
             findNavController().navigate(
                 R.id.action_homeBottomNavFragment_to_writingDetailFragment,
                 Bundle().apply {
@@ -82,7 +87,8 @@ class WritingFragment private constructor() : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val src = viewModel.getListData(type)
-        adapter.submitList(src)
+        disposable.addAll(viewModel.getListData(type).subscribe({ src ->
+            adapter.submitList(src)
+        }, { t -> Logger.e(t.message!!) }))
     }
 }

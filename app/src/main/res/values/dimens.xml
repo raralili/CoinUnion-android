@@ -16,4 +16,6 @@
     <dimen name="fragment_writing_floating_button_end_margin">20dp</dimen>
     <dimen name="bar_title_size_20sp">20sp</dimen>
     <dimen name="fragment_writing_edit_text_height">200dp</dimen>
+    <dimen name="photo_grid_item_separator">2dp</dimen>
+    <dimen name="photo_gird_item_length">100dp</dimen>
 </resources>

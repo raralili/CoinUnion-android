@@ -7,6 +7,9 @@ import com.rius.coinunion.ui.SplashViewModel
 import com.rius.coinunion.ui.home.HomeViewModel
 import com.rius.coinunion.ui.home.market.MarketViewModel
 import com.rius.coinunion.ui.home.tradecouple.TradeCoupleViewModel
+import com.rius.coinunion.ui.login.LoginViewModel
+import com.rius.coinunion.ui.login.RegisterViewModel
+import com.rius.coinunion.ui.login.ResetPasswordViewModel
 import com.rius.coinunion.ui.profile.ProfileViewModel
 import com.rius.coinunion.ui.userlist.UserListViewModel
 import com.rius.coinunion.ui.writing.detail.WritingDetailViewModel
@@ -63,4 +66,20 @@ abstract class VMModule {
     @IntoMap
     @ViewModelKey(WritingEditViewModel::class)
     abstract fun bindWritingEditViewModel(vm: WritingEditViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel::class)
+    abstract fun bindLoginViewModel(vm: LoginViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegisterViewModel::class)
+    abstract fun bindRegisterViewModel(vm: RegisterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ResetPasswordViewModel::class)
+    abstract fun bindResetPasswordViewModel(vm: ResetPasswordViewModel): ViewModel
+
 }

@@ -14,7 +14,7 @@ class WritingEditGridAdapter(
     appExecutors: AppExecutors,
     val fragmentBindingComponent: FragmentBindingComponent
 ) :
-    MyListAdapter<WritingEditGridEntity, WritingEditFragmentGridItemBinding>(appExecutors,
+    MyListAdapter<WritingEditGridResult, WritingEditFragmentGridItemBinding>(appExecutors,
         diffCallback = diffCallback(
             itemSame = { old, new ->
                 old.uri == new.uri
@@ -33,7 +33,7 @@ class WritingEditGridAdapter(
         return binding
     }
 
-    override fun bind(binding: WritingEditFragmentGridItemBinding, item: WritingEditGridEntity) {
+    override fun bind(binding: WritingEditFragmentGridItemBinding, item: WritingEditGridResult) {
         binding.data = item
     }
 }

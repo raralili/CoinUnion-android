@@ -5,7 +5,7 @@
 
         <variable
             name="info"
-            type="com.rius.coinunion.entity.writing.WritingInfo" />
+            type="com.rius.coinunion.db.entity.WritingInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,13 +41,21 @@
 
                 <ImageView
                     android:id="@+id/iv_main"
-                    imgUrl="@{info.imgUrl}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_title"
                     android:layout_marginTop="10dp"
                     android:scaleType="fitXY"
                     tools:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_main"
+                    android:layout_marginTop="10dp"
+                    android:text="@{info.content}"
+                    tools:text="东非狒狒" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

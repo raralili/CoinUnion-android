@@ -73,31 +73,37 @@ class WritingEditFragment : Fragment(), Injectable {
         }
 
         btnPublish.setOnClickListener { v ->
-            if (TextUtils.isEmpty(editTitle.text.toString().trim())) {
-                KmUtils.toast(resources.getString(R.string.fragment_writing_edit_title_hint))
+            val title = editTitle.text.toString()
+            val content = editContent.text.toString()
+            if (TextUtils.isEmpty(title)) {
+                KmUtils.toast(getString(R.string.fragment_writing_edit_title_hint))
                 return@setOnClickListener
             }
-            if (TextUtils.isEmpty(editContent.text.toString().trim())) {
-                KmUtils.toast(resources.getString(R.string.fragment_writing_edit_content_hint))
+            if (TextUtils.isEmpty(content)) {
+                KmUtils.toast(getString(R.string.fragment_writing_edit_content_hint))
                 return@setOnClickListener
             }
-            v.findNavController().navigateUp()
+            val imgUris = adapter.currentList.map { it.uri }
+            viewModel.publish(title, content, if (imgUris.isEmpty()) null else imgUris).subscribe {
+                KmUtils.toast(getString(R.string.fragment_writing_publish_success_hint))
+                v.findNavController().navigateUp()
+            }
         }
         return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val selectedImg = Matisse.obtainResult(data)
-            val res = mutableListOf<WritingEditGridEntity>()
+            val res = mutableListOf<WritingEditGridResult>()
             selectedImg.forEach {
-                res.add((WritingEditGridEntity(it)))
+                res.add((WritingEditGridResult(it)))
             }
             adapter.submitList(res)
         }
